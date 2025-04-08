@@ -8,11 +8,11 @@
   
             <!-- Draggable Tasks -->
             <draggable
-              v-model="column.tasks"
-              group="tasks"
-              @end="(e) => onDragEnd(e, column.status)"
-              item-key="id"
-            >
+          v-model="column.tasks"
+          group="tasks"
+          item-key="id"
+          @change="onTaskChange($event, column.status)"
+        >
               <template #item="{ element: task }">
                 <div class="bg-gray-100 p-2 my-2 rounded">
                   <div v-if="!task.editing">
@@ -105,6 +105,16 @@
   const updateTask = (task) => {
     task.editing = false
     router.put(`/tasks/${task.id}`, { title: task.title, status: task.status })
+  }
+
+  const onTaskChange = (event, newStatus) => {
+    if (event.added) {
+      const addedTask = event.added.element
+      if (addedTask.status !== newStatus) {
+        addedTask.status = newStatus
+        updateTask(addedTask)
+      }
+    }
   }
   </script>
   
