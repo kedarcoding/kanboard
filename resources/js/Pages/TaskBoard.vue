@@ -1,9 +1,12 @@
 <template>
-    <div class="p-4">
+    <div class="py-4 px-6">
+        <div class="font-semibold text-blue-900 text-xl py-3">
+              Task Management
+       </div>
       <!-- Draggable Columns -->
       <draggable v-model="columnOrder" item-key="status" class="flex gap-4" group="columns" direction="horizontal">
         <template #item="{ element: column }">
-          <div class="w-1/3 border p-2">
+          <div class="w-1/3 border p-2 shadow-md">
             <h2 class="text-lg font-bold capitalize mb-2">{{ column.status }}</h2>
   
             <!-- Draggable Tasks -->
@@ -14,18 +17,18 @@
           @change="onTaskChange($event, column.status)"
         >
               <template #item="{ element: task }">
-                <div class="bg-gray-100 p-2 my-2 rounded">
+                <div class="bg-gray-200 hover:bg-gray-300 p-3 my-2 rounded cursor-pointer">
                   <div v-if="!task.editing">
-                    {{ task.title }}
-                    <div class="flex justify-between text-sm mt-1">
-                      <button @click="task.editing = true" class="text-blue-500">Edit</button>
-                      <button @click="deleteTask(task.id)" class="text-red-500">Delete</button>
+                    <div class="text-lg text-gray-800 font-semibold">{{ task.title }}</div>
+                    <div class="flex justify-between text-sm mt-3">
+                      <button @click="task.editing = true" class="text-blue-500 text-md bg-blue-100 hover:bg-blue-200 p-1">Edit</button>
+                      <button @click="deleteTask(task.id)" class="text-red-500 text-md hover:text-red-600 bg-red-100 hover:bg-red-200 p-1">Delete</button>
                     </div>
                   </div>
                   <div v-else>
                     <input
                       v-model="task.title"
-                      class="w-full p-1 border"
+                      class="w-full p-2 border text-lg"
                       @keyup.enter="updateTask(task)"
                       @blur="updateTask(task)"
                     />
@@ -39,11 +42,11 @@
   
       <!-- Add New Task -->
       <div class="mt-4">
-        <input v-model="newTask.title" placeholder="New task title" class="border p-1" />
-        <select v-model="newTask.status" class="border p-1 ml-2">
+        <input v-model="newTask.title" placeholder="New task title" class="border text-lg p-2 w-[400px]" />
+        <select v-model="newTask.status" class="border p-2.5 ml-2">
           <option v-for="s in statuses" :key="s" :value="s">{{ s }}</option>
         </select>
-        <button @click="addTask" class="bg-blue-500 text-white px-3 py-1 ml-2">Add</button>
+        <button @click="addTask" class="bg-blue-500 hover:bg-blue-600 text-white px-3 w-[100px] py-2.5 ml-2">Add</button>
       </div>
     </div>
   </template>
